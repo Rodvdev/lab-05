@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: lab05_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
+      MYSQL_DATABASE: lab_05
+      MYSQL_USER: flask_user
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-flask_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    networks:
+      - lab05_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Flask Application
+  flask_app:
+    build: .
+    container_name: lab05_flask
+    restart: unless-stopped
+    ports:
+      - "80:5001"  # Mapear puerto 80 para acceso web estándar
+    environment:
+      - DATABASE_URL=mysql+pymysql://flask_user:${MYSQL_PASSWORD:-flask_password}@mysql:3306/lab_05
+      - FLASK_ENV=production
+      - SECRET_KEY=${SECRET_KEY:-your-secret-key-change-in-production}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - lab05_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/profesores/api"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  mysql_data:
+
+networks:
+  lab05_network:
+    driver: bridge
