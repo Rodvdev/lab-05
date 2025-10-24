@@ -37,11 +37,11 @@
                 <td>{{ profesor.titulo_academico or 'No especificado' }}</td>
                 <td>
                     <div class="btn-group" role="group">
-                        <a href="{{ url_for('profesor.show', id=profesor.profesor_id) }}" 
+                        <a href="{{ url_for('profesor.show', profesor_id=profesor.profesor_id) }}" 
                            class="btn btn-sm btn-outline-primary" title="Ver detalles">
                             <i class="fas fa-eye"></i>
                         </a>
-                        <a href="{{ url_for('profesor.edit', id=profesor.profesor_id) }}" 
+                        <a href="{{ url_for('profesor.edit', profesor_id=profesor.profesor_id) }}" 
                            class="btn btn-sm btn-outline-warning" title="Editar">
                             <i class="fas fa-edit"></i>
                         </a>
@@ -68,7 +68,7 @@
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                         Cancelar
                                     </button>
-                                    <form method="POST" action="{{ url_for('profesor.delete', id=profesor.profesor_id) }}" style="display: inline;">
+                                    <form method="POST" action="{{ url_for('profesor.delete', profesor_id=profesor.profesor_id) }}" style="display: inline;">
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fas fa-trash"></i> Eliminar
                                         </button>

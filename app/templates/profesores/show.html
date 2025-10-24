@@ -79,7 +79,7 @@
                     <a href="{{ url_for('profesor.index') }}" class="btn btn-secondary me-md-2">
                         <i class="fas fa-arrow-left"></i> Volver a la Lista
                     </a>
-                    <a href="{{ url_for('profesor.edit', id=profesor.profesor_id) }}" class="btn btn-warning me-md-2">
+                    <a href="{{ url_for('profesor.edit', profesor_id=profesor.profesor_id) }}" class="btn btn-warning me-md-2">
                         <i class="fas fa-edit"></i> Editar
                     </a>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -107,7 +107,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Cancelar
                 </button>
-                <form method="POST" action="{{ url_for('profesor.delete', id=profesor.profesor_id) }}" style="display: inline;">
+                <form method="POST" action="{{ url_for('profesor.delete', profesor_id=profesor.profesor_id) }}" style="display: inline;">
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Eliminar
                     </button>

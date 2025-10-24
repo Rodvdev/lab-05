@@ -37,10 +37,10 @@ def create():
     
     return render_template('profesores/create.html')
 
-@profesor_bp.route('/<int:id>')
-def show(id):
+@profesor_bp.route('/<int:profesor_id>')
+def show(profesor_id):
     """Mostrar detalles de un profesor"""
-    result = ProfesorService.get_profesor(id)
+    result = ProfesorService.get_profesor(profesor_id)
     if result['status'] != 200:
         flash(result['error'], 'error')
         return redirect(url_for('profesor.index'))
@@ -48,8 +48,8 @@ def show(id):
     profesor = result['data']
     return render_template('profesores/show.html', profesor=profesor)
 
-@profesor_bp.route('/<int:id>/edit', methods=['GET', 'POST'])
-def edit(id):
+@profesor_bp.route('/<int:profesor_id>/edit', methods=['GET', 'POST'])
+def edit(profesor_id):
     """Editar un profesor"""
     if request.method == 'POST':
         data = {
@@ -62,15 +62,15 @@ def edit(id):
             'titulo_academico': request.form.get('titulo_academico')
         }
         
-        result = ProfesorService.update_profesor(id, data)
+        result = ProfesorService.update_profesor(profesor_id, data)
         if result['status'] == 200:
             flash('Profesor actualizado exitosamente', 'success')
-            return redirect(url_for('profesor.show', id=id))
+            return redirect(url_for('profesor.show', profesor_id=profesor_id))
         else:
             flash(result['error'], 'error')
     
     # GET request - mostrar formulario de edición
-    result = ProfesorService.get_profesor(id)
+    result = ProfesorService.get_profesor(profesor_id)
     if result['status'] != 200:
         flash(result['error'], 'error')
         return redirect(url_for('profesor.index'))
@@ -78,10 +78,10 @@ def edit(id):
     profesor = result['data']
     return render_template('profesores/edit.html', profesor=profesor)
 
-@profesor_bp.route('/<int:id>/delete', methods=['POST'])
-def delete(id):
+@profesor_bp.route('/<int:profesor_id>/delete', methods=['POST'])
+def delete(profesor_id):
     """Eliminar un profesor"""
-    result = ProfesorService.delete_profesor(id)
+    result = ProfesorService.delete_profesor(profesor_id)
     if result['status'] == 200:
         flash('Profesor eliminado exitosamente', 'success')
     else:
@@ -96,10 +96,10 @@ def api_list():
     result = ProfesorService.get_active_profesores()
     return jsonify(result), result['status']
 
-@profesor_bp.route('/api/<int:id>', methods=['GET'])
-def api_show(id):
+@profesor_bp.route('/api/<int:profesor_id>', methods=['GET'])
+def api_show(profesor_id):
     """API endpoint para mostrar un profesor"""
-    result = ProfesorService.get_profesor(id)
+    result = ProfesorService.get_profesor(profesor_id)
     return jsonify(result), result['status']
 
 @profesor_bp.route('/api', methods=['POST'])
@@ -109,15 +109,15 @@ def api_create():
     result = ProfesorService.create_profesor(data)
     return jsonify(result), result['status']
 
-@profesor_bp.route('/api/<int:id>', methods=['PUT'])
-def api_update(id):
+@profesor_bp.route('/api/<int:profesor_id>', methods=['PUT'])
+def api_update(profesor_id):
     """API endpoint para actualizar profesor"""
     data = request.get_json()
-    result = ProfesorService.update_profesor(id, data)
+    result = ProfesorService.update_profesor(profesor_id, data)
     return jsonify(result), result['status']
 
-@profesor_bp.route('/api/<int:id>', methods=['DELETE'])
-def api_delete(id):
+@profesor_bp.route('/api/<int:profesor_id>', methods=['DELETE'])
+def api_delete(profesor_id):
     """API endpoint para eliminar profesor"""
-    result = ProfesorService.delete_profesor(id)
+    result = ProfesorService.delete_profesor(profesor_id)
     return jsonify(result), result['status']
