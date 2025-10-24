@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profesor.nombre }} {{ profesor.apellido }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-user"></i> Detalles del Profesor</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Información Personal</h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>ID:</strong></td>
+                                <td>{{ profesor.profesor_id }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nombre:</strong></td>
+                                <td>{{ profesor.nombre }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Apellido:</strong></td>
+                                <td>{{ profesor.apellido }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DNI:</strong></td>
+                                <td>{{ profesor.dni }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td>{{ profesor.email }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Teléfono:</strong></td>
+                                <td>{{ profesor.telefono or 'No especificado' }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Información Académica</h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Especialidad:</strong></td>
+                                <td>{{ profesor.especialidad or 'No especificado' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Título Académico:</strong></td>
+                                <td>{{ profesor.titulo_academico or 'No especificado' }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Estado:</strong></td>
+                                <td>
+                                    <span class="badge bg-{{ 'success' if profesor.activo else 'secondary' }}">
+                                        {{ 'Activo' if profesor.activo else 'Inactivo' }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h5>Información del Sistema</h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Fecha de Registro:</strong></td>
+                                <td>{{ profesor.fecha_registro }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <a href="{{ url_for('profesor.index') }}" class="btn btn-secondary me-md-2">
+                        <i class="fas fa-arrow-left"></i> Volver a la Lista
+                    </a>
+                    <a href="{{ url_for('profesor.edit', id=profesor.profesor_id) }}" class="btn btn-warning me-md-2">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                ¿Está seguro de que desea eliminar al profesor 
+                <strong>{{ profesor.nombre }} {{ profesor.apellido }}</strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <form method="POST" action="{{ url_for('profesor.delete', id=profesor.profesor_id) }}" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
