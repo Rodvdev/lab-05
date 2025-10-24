@@ -3,117 +3,177 @@
 {% block title %}{{ profesor.nombre }} {{ profesor.apellido }}{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3><i class="fas fa-user"></i> Detalles del Profesor</h3>
+<div class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <div class="mb-6">
+        <div class="flex items-center justify-between">
+            <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                <i class="fas fa-user mr-3 text-primary-600"></i>
+                Detalles del Profesor
+            </h1>
+            <a href="{{ url_for('profesor.index') }}" 
+               class="text-gray-600 hover:text-gray-900 transition-colors duration-200">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Volver a lista
+            </a>
+        </div>
+        <p class="text-gray-600 mt-2">{{ profesor.nombre }} {{ profesor.apellido }}</p>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <!-- Profile Header -->
+        <div class="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-3xl text-white"></i>
+                    </div>
+                </div>
+                <div class="ml-6">
+                    <h2 class="text-2xl font-bold text-white">{{ profesor.nombre }} {{ profesor.apellido }}</h2>
+                    <p class="text-primary-100">{{ profesor.email }}</p>
+                    <div class="mt-2">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                            <i class="fas fa-check-circle mr-1"></i>
+                            Activo
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5>Información Personal</h5>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td><strong>ID:</strong></td>
-                                <td>{{ profesor.profesor_id }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Nombre:</strong></td>
-                                <td>{{ profesor.nombre }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Apellido:</strong></td>
-                                <td>{{ profesor.apellido }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>DNI:</strong></td>
-                                <td>{{ profesor.dni }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Email:</strong></td>
-                                <td>{{ profesor.email }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Teléfono:</strong></td>
-                                <td>{{ profesor.telefono or 'No especificado' }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="col-md-6">
-                        <h5>Información Académica</h5>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td><strong>Especialidad:</strong></td>
-                                <td>{{ profesor.especialidad or 'No especificado' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Título Académico:</strong></td>
-                                <td>{{ profesor.titulo_academico or 'No especificado' }}</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Estado:</strong></td>
-                                <td>
-                                    <span class="badge bg-{{ 'success' if profesor.activo else 'secondary' }}">
-                                        {{ 'Activo' if profesor.activo else 'Inactivo' }}
-                                    </span>
-                                </td>
-                            </tr>
-                        </table>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Información Personal -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-id-card mr-2 text-primary-600"></i>
+                        Información Personal
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">ID:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.profesor_id }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">Nombre:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.nombre }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">Apellido:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.apellido }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">DNI:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.dni }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">Email:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.email }}</span>
+                        </div>
+                        <div class="flex justify-between py-2">
+                            <span class="text-sm font-medium text-gray-500">Teléfono:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.telefono or 'No especificado' }}</span>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <h5>Información del Sistema</h5>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td><strong>Fecha de Registro:</strong></td>
-                                <td>{{ profesor.fecha_registro }}</td>
-                            </tr>
-                        </table>
+
+                <!-- Información Académica -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                        <i class="fas fa-graduation-cap mr-2 text-primary-600"></i>
+                        Información Académica
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">Especialidad:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.especialidad or 'No especificado' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">Título Académico:</span>
+                            <span class="text-sm text-gray-900">{{ profesor.titulo_academico or 'No especificado' }}</span>
+                        </div>
+                        <div class="flex justify-between py-2 border-b border-gray-100">
+                            <span class="text-sm font-medium text-gray-500">Estado:</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <i class="fas fa-check-circle mr-1"></i>
+                                Activo
+                            </span>
+                        </div>
+                        <div class="flex justify-between py-2">
+                            <span class="text-sm font-medium text-gray-500">Fecha de Registro:</span>
+                            <span class="text-sm text-gray-900">
+                                {{ profesor.fecha_registro.strftime('%d/%m/%Y') if profesor.fecha_registro else 'No disponible' }}
+                            </span>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                    <a href="{{ url_for('profesor.index') }}" class="btn btn-secondary me-md-2">
-                        <i class="fas fa-arrow-left"></i> Volver a la Lista
-                    </a>
-                    <a href="{{ url_for('profesor.edit', profesor_id=profesor.profesor_id) }}" class="btn btn-warning me-md-2">
-                        <i class="fas fa-edit"></i> Editar
-                    </a>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
-                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+                <a href="{{ url_for('profesor.index') }}" 
+                   class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Volver a la Lista
+                </a>
+                <a href="{{ url_for('profesor.edit', profesor_id=profesor.profesor_id) }}" 
+                   class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition-colors duration-200">
+                    <i class="fas fa-edit mr-2"></i>
+                    Editar
+                </a>
+                <button type="button" 
+                        onclick="openDeleteModal({{ profesor.profesor_id }}, '{{ profesor.nombre }} {{ profesor.apellido }}')"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                    <i class="fas fa-trash mr-2"></i>
+                    Eliminar
+                </button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal de confirmación para eliminar -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmar Eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden" x-data="{ show: false, profesorId: null, profesorName: '' }" x-show="show" @click.away="show = false">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <i class="fas fa-exclamation-triangle text-red-600"></i>
             </div>
-            <div class="modal-body">
-                ¿Está seguro de que desea eliminar al profesor 
-                <strong>{{ profesor.nombre }} {{ profesor.apellido }}</strong>?
+            <h3 class="text-lg font-medium text-gray-900 mt-2">Confirmar Eliminación</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500">
+                    ¿Está seguro de que desea eliminar al profesor 
+                    <span class="font-semibold" x-text="profesorName"></span>?
+                </p>
+                <p class="text-xs text-red-600 mt-2">Esta acción no se puede deshacer.</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            <div class="items-center px-4 py-3">
+                <button @click="show = false" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 mr-2">
                     Cancelar
                 </button>
-                <form method="POST" action="{{ url_for('profesor.delete', profesor_id=profesor.profesor_id) }}" style="display: inline;">
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Eliminar
+                <form method="POST" :action="`/profesores/${profesorId}/delete`" style="display: inline;">
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <i class="fas fa-trash mr-1"></i>
+                        Eliminar
                     </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function openDeleteModal(profesorId, profesorName) {
+    const modal = document.getElementById('deleteModal');
+    const alpineData = Alpine.$data(modal);
+    alpineData.profesorId = profesorId;
+    alpineData.profesorName = profesorName;
+    alpineData.show = true;
+}
+</script>
 {% endblock %}
